@@ -1,0 +1,606 @@
+---
+# Jekyll Front Matter - Tells GitHub Pages to process this file with Jekyll
+layout: none # Use 'none' or 'default' if you have a layout defined elsewhere, otherwise leave it or use none
+title: Flavor Haven - Exquisite Dining Experience
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: "Welcome to Our Restaurant" }}</title>
+    <!-- Use page.title from Front Matter, fallback if not set -->
+
+    <!-- Google Fonts (Example: Playfair Display for headings, Lato for body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Internal CSS -->
+    <style>
+        /* --- Basic Reset & Global Styles --- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Base font size */
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: #444;
+            background-color: #fdfcfb; /* Off-white background */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: #333;
+            margin-bottom: 0.75em;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 3rem; margin-bottom: 0.5em; }
+        h2 { font-size: 2.25rem; text-align: center; margin-bottom: 1.5em; color: #8c6e4f; /* Muted gold/brown */}
+        h3 { font-size: 1.5rem; color: #5a4a3b; /* Darker brown */ }
+
+        p {
+            margin-bottom: 1em;
+            color: #555;
+        }
+
+        a {
+            color: #c8a47e; /* Elegant gold accent */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover, a:focus {
+            color: #a17c5a; /* Darker gold on hover */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 5px; /* Slightly rounded corners for images */
+        }
+
+        /* --- Utility Classes --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+            opacity: 0; /* Initially hidden for fade-in */
+            transform: translateY(30px); /* Start slightly lower */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #c8a47e; /* Gold accent */
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px; /* Pill shape */
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover, .btn:focus {
+            background-color: #a17c5a; /* Darker gold */
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed; /* Sticky header */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            backdrop-filter: blur(5px); /* Subtle blur effect */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav li {
+            margin-left: 25px;
+        }
+
+        .main-nav a {
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .main-nav a:hover, .main-nav a:focus {
+            color: #c8a47e;
+            border-bottom-color: #c8a47e;
+        }
+
+        /* Mobile Menu Styles (Basic - hidden for now) */
+        .menu-toggle { display: none; } /* Add hamburger icon & logic if needed */
+
+        /* --- Hero Section --- */
+        #hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh; /* Full viewport height */
+            color: #fff;
+            /* IMPORTANT: Replace with your actual hero background image */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/hero-bg.jpg') no-repeat center center/cover;
+            padding-top: 80px; /* Account for fixed header */
+            position: relative; /* Needed for pseudo-elements if added */
+             opacity: 1; /* Hero is visible immediately */
+            transform: none;
+            transition: none;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem; /* Larger for hero */
+            color: #fff;
+            margin-bottom: 0.3em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 1.5em;
+            color: #eee;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+        }
+
+        /* --- About Section --- */
+        #about .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            gap: 40px;
+            align-items: center;
+        }
+
+        #about img {
+             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+             /* IMPORTANT: Replace with your actual image */
+             /* Example: src="assets/images/about-us.jpg" */
+        }
+
+        /* --- Menu Highlights Section --- */
+        #menu-highlights {
+            background-color: #f4f1ed; /* Slightly different background */
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 40px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow: hidden; /* Keep image corners rounded */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+         .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px; /* Fixed height for consistency */
+            object-fit: cover; /* Cover the area, cropping if needed */
+            border-radius: 8px 8px 0 0; /* Round top corners */
+        }
+
+        .menu-item-content {
+            padding: 25px;
+        }
+
+        .menu-item h3 {
+            margin-bottom: 0.5em;
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        /* --- Gallery Section --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px; /* Consistent height */
+            object-fit: cover;
+            border-radius: 5px;
+             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+         .gallery-item img:hover {
+             transform: scale(1.03);
+             box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+         }
+
+        /* --- Contact & Reservations Section --- */
+        #contact, #reservations {
+            background-color: #5a4a3b; /* Dark brown background */
+            color: #f4f1ed; /* Light text on dark background */
+        }
+
+        #contact h2, #reservations h2 {
+            color: #fff; /* White headings on dark background */
+        }
+        #contact p, #reservations p {
+            color: #e0dccc; /* Lighter text color */
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-info {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .contact-info strong {
+             color: #c8a47e; /* Gold accent for labels */
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .social-links a {
+            color: #ccc;
+            margin: 0 10px;
+            font-size: 1.2rem; /* Make icons slightly larger */
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #c8a47e; /* Gold hover for social icons */
+        }
+        .main-footer p {
+            margin-top: 15px;
+            margin-bottom: 0;
+            color: #aaa;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            h1 { font-size: 2.5rem; }
+            .hero-content h1 { font-size: 3rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .section { padding: 60px 0; }
+             #about .container { grid-template-columns: 1fr; } /* Stack columns */
+             #about img { margin-bottom: 30px; order: -1; /* Image on top on mobile */}
+        }
+
+        @media (max-width: 768px) {
+            .main-header .container { flex-direction: column; }
+            .main-nav ul { margin-top: 15px; }
+            .main-nav li { margin: 0 10px; } /* Adjust spacing */
+            .logo { margin-bottom: 10px; }
+
+            .container { padding: 0 15px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+             #hero { min-height: 80vh; }
+
+            .menu-grid { grid-template-columns: 1fr; /* Single column */ }
+            .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;}
+            .gallery-item img { height: 200px; }
+        }
+
+         @media (max-width: 576px) {
+             html { font-size: 15px; }
+             .main-nav ul { flex-wrap: wrap; justify-content: center;} /* Allow nav items to wrap */
+             .main-nav li { margin: 5px 10px; }
+              .hero-content h1 { font-size: 2rem; }
+              .hero-content p { font-size: 1rem; }
+              .btn { padding: 10px 20px; font-size: 0.9rem;}
+              .section { padding: 50px 0; }
+              .gallery-grid { grid-template-columns: 1fr; gap: 10px; } /* Single column gallery */
+              .gallery-item img { height: auto; } /* Let height adjust */
+              .contact-info { font-size: 1rem; }
+              .main-footer { padding: 20px 0; }
+         }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Flavor Haven</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu-highlights">Menu</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#reservations">Reserve</a></li>
+                </ul>
+            </nav>
+            <!-- Add a .menu-toggle button here if implementing mobile burger menu -->
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Flavor Haven</h1>
+                <p>Experience the art of fine dining. Fresh ingredients, passionate cooking, unforgettable moments.</p>
+                <a href="#menu-highlights" class="btn">View Our Menu</a>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="section">
+            <div class="container">
+                 <div>
+                     <!-- IMPORTANT: Replace with your actual image -->
+                     <img src="assets/images/about-us-placeholder.jpg" alt="Interior of Flavor Haven restaurant">
+                 </div>
+                 <div>
+                    <h2>Our Story</h2>
+                    <p>Welcome to Flavor Haven, where culinary passion meets warm hospitality. Founded in [Year], our dream was to create a space where friends and family could gather to enjoy exceptional food crafted with the freshest local ingredients.</p>
+                    <p>Our chefs draw inspiration from [mention cuisine style, e.g., modern European, authentic Italian, farm-to-table American] techniques, adding their unique creative touch to every dish. We believe dining is an experience, and we strive to make every visit memorable.</p>
+                    <a href="#reservations" class="btn">Make a Reservation</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Highlights Section -->
+        <section id="menu-highlights" class="section">
+            <div class="container">
+                <h2>Signature Dishes</h2>
+                <div class="menu-grid">
+                    <!-- Menu Item 1 -->
+                    <div class="menu-item">
+                        <!-- IMPORTANT: Replace with your actual image -->
+                        <img src="assets/images/dish1-placeholder.jpg" alt="Seared Scallops">
+                        <div class="menu-item-content">
+                            <h3>Seared Scallops</h3>
+                            <p>Pan-seared jumbo scallops served with a creamy lemon-butter sauce and asparagus risotto.</p>
+                        </div>
+                    </div>
+                    <!-- Menu Item 2 -->
+                    <div class="menu-item">
+                        <!-- IMPORTANT: Replace with your actual image -->
+                        <img src="assets/images/dish2-placeholder.jpg" alt="Ribeye Steak">
+                        <div class="menu-item-content">
+                            <h3>Ribeye Steak</h3>
+                            <p>Grilled 12oz Ribeye, cooked to perfection, with garlic mashed potatoes and seasonal vegetables.</p>
+                        </div>
+                    </div>
+                    <!-- Menu Item 3 -->
+                    <div class="menu-item">
+                         <!-- IMPORTANT: Replace with your actual image -->
+                        <img src="assets/images/dish3-placeholder.jpg" alt="Chocolate Lava Cake">
+                        <div class="menu-item-content">
+                            <h3>Chocolate Lava Cake</h3>
+                            <p>Decadent molten chocolate cake served warm with vanilla bean ice cream and raspberry coulis.</p>
+                        </div>
+                    </div>
+                    <!-- Add more menu items as needed -->
+                </div>
+                 <div class="text-center" style="margin-top: 40px;">
+                    <a href="#" class="btn">View Full Menu (Link)</a>
+                     <!-- Link this to a full menu page or PDF if you have one -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section">
+            <div class="container">
+                <h2>A Glimpse Inside</h2>
+                <div class="gallery-grid">
+                    <!-- IMPORTANT: Replace all with your actual images -->
+                    <div class="gallery-item"><img src="assets/images/gallery1-placeholder.jpg" alt="Gallery Image 1 - Food Plating"></div>
+                    <div class="gallery-item"><img src="assets/images/gallery2-placeholder.jpg" alt="Gallery Image 2 - Restaurant Ambiance"></div>
+                    <div class="gallery-item"><img src="assets/images/gallery3-placeholder.jpg" alt="Gallery Image 3 - Chef Cooking"></div>
+                    <div class="gallery-item"><img src="assets/images/gallery4-placeholder.jpg" alt="Gallery Image 4 - Dining Area"></div>
+                    <div class="gallery-item"><img src="assets/images/gallery5-placeholder.jpg" alt="Gallery Image 5 - Dessert"></div>
+                    <div class="gallery-item"><img src="assets/images/gallery6-placeholder.jpg" alt="Gallery Image 6 - Exterior View"></div>
+                    <!-- Add more gallery items -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container text-center">
+                <h2>Visit Us</h2>
+                 <div class="contact-info">
+                    <p><strong>Address:</strong> 123 Culinary Lane, Foodie City, FC 54321</p>
+                    <p><strong>Phone:</strong> <a href="tel:+1234567890">(123) 456-7890</a></p>
+                    <p><strong>Hours:</strong><br>
+                        Tue - Thu: 5:00 PM - 10:00 PM<br>
+                        Fri - Sat: 5:00 PM - 11:00 PM<br>
+                        Sun: 4:00 PM - 9:00 PM<br>
+                        Monday: Closed
+                    </p>
+                    <!-- Optional: Add map link/embed here -->
+                    <!-- <a href="YOUR_GOOGLE_MAPS_LINK" target="_blank" class="btn">Get Directions</a> -->
+                </div>
+            </div>
+        </section>
+
+         <!-- Reservations Section -->
+        <section id="reservations" class="section">
+            <div class="container text-center">
+                <h2>Make a Reservation</h2>
+                <p>Ready for an unforgettable dining experience? Book your table online or give us a call.</p>
+                 <!-- Link this button to your reservation system (e.g., OpenTable, Resy) or a contact form -->
+                <a href="#" class="btn" style="margin-top: 20px;">Book Online</a>
+                 <p style="margin-top: 20px;">Or call us at <a href="tel:+1234567890" style="color:#fff; text-decoration: underline;">(123) 456-7890</a></p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="social-links">
+                <!-- Replace # with your actual social media links -->
+                <!-- You might want to use Font Awesome icons here -->
+                <a href="#" aria-label="Facebook">FB</a> <!-- Placeholder text, use icons ideally -->
+                <a href="#" aria-label="Instagram">IG</a>
+                <a href="#" aria-label="Twitter">TW</a>
+            </div>
+            <p>&copy; {% now 'YYYY' %} Flavor Haven. All Rights Reserved.</p>
+            <!-- {% now 'YYYY' %} is Jekyll Liquid tag for current year -->
+        </div>
+    </footer>
+
+    <!-- Internal JavaScript -->
+    <script>
+        // Simple Fade-in Animation on Scroll using Intersection Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section');
+
+            // Check if IntersectionObserver is supported
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        // If the element is intersecting (visible)
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            // Optional: Stop observing the element once it's visible
+                            // observer.unobserve(entry.target);
+                        }
+                        // Optional: Remove 'visible' class if element scrolls out of view
+                        // else {
+                        //     entry.target.classList.remove('visible');
+                        // }
+                    });
+                }, {
+                    root: null, // Use the viewport as the root
+                    rootMargin: '0px', // No margin
+                    threshold: 0.1 // Trigger when 10% of the element is visible
+                });
+
+                // Observe each section
+                sections.forEach(section => {
+                    // Don't apply fade-in to hero initially if it's styled differently
+                     if (section.id !== 'hero') {
+                        observer.observe(section);
+                     } else {
+                         // Make sure hero is always marked visible if needed by other JS
+                         section.classList.add('visible');
+                     }
+                });
+            } else {
+                 // Fallback for older browsers: just make all sections visible
+                sections.forEach(section => {
+                     section.classList.add('visible');
+                 });
+                console.warn('Intersection Observer not supported, animations disabled.');
+            }
+
+            // Optional: Smooth scroll for browsers not supporting `scroll-behavior: smooth`
+            // (Modern browsers handle this via CSS, so this is often redundant)
+            // const navLinks = document.querySelectorAll('.main-nav a');
+            // navLinks.forEach(link => {
+            //     link.addEventListener('click', function(e) {
+            //         const targetId = this.getAttribute('href');
+            //         // Basic check if it's an internal link
+            //         if (targetId && targetId.startsWith('#')) {
+            //             e.preventDefault(); // Prevent default jump
+            //             const targetElement = document.querySelector(targetId);
+            //             if (targetElement) {
+            //                 // Calculate offset if needed (e.g., for fixed header)
+            //                 const headerOffset = document.querySelector('.main-header')?.offsetHeight || 0;
+            //                 const elementPosition = targetElement.getBoundingClientRect().top;
+            //                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            //                 window.scrollTo({
+            //                     top: offsetPosition,
+            //                     behavior: 'smooth'
+            //                 });
+            //             }
+            //         }
+            //     });
+            // });
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
